@@ -95,7 +95,7 @@ public class GoogleMapDataScraper {
 			driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
 			driver.findElement(By.linkText("Change to English")).click();
 			driver.findElement(By.linkText("More places")).click();
-			while (driver.findElement(By.linkText("Next")).isDisplayed())
+			while (true)
 			{
 				Thread.sleep(1000);
 				List<WebElement> element = driver.findElements(By.className("VkpGBb"));
@@ -184,12 +184,21 @@ public class GoogleMapDataScraper {
 
 				}
 
-				Thread.sleep(2000);
-				WebElement element2 = driver.findElement(By.linkText("Next"));
-				je.executeScript("arguments[0].scrollIntoView(true);", element2);
-				Thread.sleep(1000);
-				driver.findElement(By.linkText("Next")).click();
-				Thread.sleep(2000);
+				List<WebElement> nextPageList = driver.findElements(By.xpath("//*[@id=\"pnnext\"]"));
+				if (nextPageList.size() > 0) {
+				    System.out.println("Next page link is present page = "+nextPageList.size());
+				    Thread.sleep(2000);
+					WebElement element2 = driver.findElement(By.xpath("//*[@id=\"pnnext\"]"));
+					je.executeScript("arguments[0].scrollIntoView(true);", element2);
+					Thread.sleep(1000);
+					driver.findElement(By.linkText("Next")).click();
+					Thread.sleep(2000);
+				}
+				else {
+				    System.out.println("Next page link is not present");
+				    driver.close();
+					break;
+				}
 
 			} 
 			

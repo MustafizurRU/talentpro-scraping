@@ -140,17 +140,23 @@ public class GoogleKeywordScraperTools {
 					}
 
 				}
-
-				if (driver.findElement(By.xpath("//td[@class=\"YyVfkd\"]")).isDisplayed()) {
-					driver.close();
+				List<WebElement> nextPageList = driver.findElements(By.xpath("//*[@id=\"pnnext\"]"));
+				if (nextPageList.size() > 0) {
+				    System.out.println("Next page link is present page = "+nextPageList.size());
+				    Thread.sleep(2000);
+					WebElement element2 = driver.findElement(By.xpath("//*[@id=\"pnnext\"]"));
+					je.executeScript("arguments[0].scrollIntoView(true);", element2);
+					Thread.sleep(1000);
+					driver.findElement(By.linkText("Next")).click();
+					Thread.sleep(2000);
+				}
+				else {
+				    System.out.println("Next page link is not present");
+				    driver.close();
 					break;
 				}
-				Thread.sleep(2000);
-				WebElement element2 = driver.findElement(By.linkText("Next"));
-				je.executeScript("arguments[0].scrollIntoView(true);", element2);
-				Thread.sleep(1000);
-				driver.findElement(By.linkText("Next")).click();
-				Thread.sleep(2000);
+				
+				
 
 			}
 
